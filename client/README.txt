@@ -1,0 +1,1 @@
+Run Maven command as follows to build the project and run application: mvn clean package exec:java -f pom.xml

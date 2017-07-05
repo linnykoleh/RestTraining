@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Notes application</title>
+        <script src="scripts/jquery-1.12.1.js"></script>
+        <script>
+            const ACCOUNTS_SELECTOR = '#accounts';
+
+            function url(path) {
+                return "/rs" + path;
+            }
+
+            function load() {
+                var resourceURL = url("/accounts");
+                $.get(resourceURL, function(accounts) {
+                    $(ACCOUNTS_SELECTOR).html('');
+                    for(var account of accounts) {
+                        var actions = "";
+                        for (var actionLink of account.actionLinks) {
+                            actions += ' [<a href="javascript:action(\'' + actionLink.link + '\')">' + actionLink.name + '</a>]';
+                        }
+
+                        var html = "<tr><td>" + account.id + "</td><td>" + account.balance + "</td><td>" + actions + "</td></tr>";
+                        $(ACCOUNTS_SELECTOR).append(html);
+                    }
+                });
+            }
+
+            function action(path) {
+                var resourceURL = url(path);
+                $.get(resourceURL, load);
+            }
+
+            $(document).ready(load);
+        </script>
+	</head>
+	<body>
+        <p>Accounts:</p>
+        <table style="border: 1px solid black">
+            <thead>
+            <tr style="background-color: silver">
+                <td>id</td>
+                <td>balance</td>
+                <td>*** actions ***</td>
+            </tr>
+            </thead>
+            <tbody id="accounts"></tbody>
+        </table>
+	</body>
+</html>

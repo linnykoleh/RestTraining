@@ -1,0 +1,1 @@
+Run Maven command as follows to build the project and start it under the Tomcat7: mvn clean package tomcat7:run-war

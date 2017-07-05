@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Notes application</title>
+        <script src="scripts/jquery-1.12.1.js"></script>
+        <script>
+            const NOTES_SELECTOR = '#notes';
+            const NOTE_SELECTOR = '#note';
+            const NAME_SELECTOR = '#name';
+
+            function notesURL(path) {
+                var username = $(NAME_SELECTOR).val();
+                return "/rs/users/" + username + "/notes" + (path === undefined ? '' : path);
+            }
+
+            function load() {
+                var resourceURL = notesURL();
+                $.get(resourceURL, function(notes) {
+                    $(NOTES_SELECTOR).html('');
+                    for(var note of notes) {
+                        $(NOTES_SELECTOR).append("<li>" + note.text + " [<a href='javascript:remove(" + note.id + ")'>remove</a>]</li>");
+                    }
+                });
+            }
+
+            function add() {
+                var resourceURL = notesURL();
+                var note = {text : $(NOTE_SELECTOR).val()};
+                $.ajax({
+                    url: resourceURL,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(note),
+                    dataType: 'json',
+                    complete: load
+                });
+            }
+
+            function remove(id) {
+                var resourceURL = notesURL("/" + id);
+                $.ajax({
+                    url: resourceURL,
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    complete: load
+                });
+            }
+
+        </script>
+	</head>
+
+	<body>
+        Your name: <input id="name"> <button onclick="load()">update</button>
+		<ul id="notes"></ul>
+		<p>Add note:<br>
+		<textarea rows="10" cols="50" id="note"></textarea>
+		<button onclick="add()">Add note</button>
+	</body>
+</html>

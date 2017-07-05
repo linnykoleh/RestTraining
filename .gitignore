@@ -1,0 +1,17 @@
+
+/.idea/
+/client/.idea/
+/client/jersey-rest-client.iml
+/hateoas/.idea/
+/hateoas/target/
+/hateoas/jersey-rest-hateoas.iml
+/hateoas/hs_err_pid5384.log
+/hateoas/hs_err_pid2268.log
+/hateoas/replay_pid2268.log
+/hateoas/replay_pid5384.log
+/jersey/jersey-rest.iml
+/jersey/.idea/
+/jersey/target/
+/spring/spring-rest.iml
+/spring/target/
+/RestTraining.iml

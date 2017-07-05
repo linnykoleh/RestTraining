@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Manage users</title>
+        <script src="scripts/jquery-1.12.1.js"></script>
+        <script>
+            const USERS_SELECTOR = '#users';
+            const NAME_SELECTOR = '#name';
+
+            function usersURL(path) {
+                return "/rs/users" + (path === undefined ? '' : path);
+            }
+
+            function load() {
+                var resourceURL = usersURL();
+                $.get(resourceURL, function(users) {
+                    $(USERS_SELECTOR).html('');
+                    for(var user of users) {
+                        $(USERS_SELECTOR).append("<li>" + user.username + " [<a href='javascript:remove(" + user.id + ")'>remove</a>]</li>");
+                    }
+                });
+            }
+
+            function add() {
+                var resourceURL = usersURL();
+                var user = {username : $(NAME_SELECTOR).val()};
+                $.ajax({
+                    url: resourceURL,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(user),
+                    dataType: 'json',
+                    complete: load
+                });
+            }
+
+            function remove(id) {
+                var resourceURL = usersURL("/" + id);
+                $.ajax({
+                    url: resourceURL,
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    complete: load
+                });
+            }
+
+            $(document).ready(load);
+
+        </script>
+	</head>
+
+	<body>
+        <p>
+            Username:
+            <input id="name" maxlength="20">
+            <button onclick="add()">add</button>
+        </p>
+        <ul id="users"></ul>
+	</body>
+</html>
