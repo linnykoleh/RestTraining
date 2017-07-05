@@ -17,6 +17,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/users/{username}/notes")
 public class NotesController {
+
     @Autowired
     private NoteRepository noteRepository;
     @Autowired

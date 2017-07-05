@@ -14,12 +14,13 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/users")
 public class UsersController {
+
     @Autowired
     private UserRepository userRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public Collection<User> getUsers() {
-        return userRepository.getUsers();
+        return userRepository.findAll();
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -29,6 +30,6 @@ public class UsersController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable long id) {
-        userRepository.deleteById(id);
+        userRepository.delete(id);
     }
 }
